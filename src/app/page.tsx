@@ -1,5 +1,6 @@
 import MaxWidthWrapper from "@/components/MaxWidthWrapper";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 
 export default function Home() {
@@ -29,7 +30,9 @@ export default function Home() {
         >
           Log In
         </Button>
-        <Button className="rounded-full border shadow-md border-white-300 mx-auto h-30 w-20 md:w-35 lg:w-40">Play</Button>
+        <Link href="/dashboard">
+        <Button className="rounded-full border shadow-md border-white-300 mx-auto h-30 w-20 md:w-35 lg:w-40">Play</Button> 
+        </Link>
       </div>
     </MaxWidthWrapper>
   );
