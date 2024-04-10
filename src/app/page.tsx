@@ -18,18 +18,18 @@ export default function Home() {
       </p>
       <div className="flex items-center justify-center gap-4">
         <Button
-          className="rounded-full border shadow-md border-gray-300 mx-auto h-30 w-40"
+          className="rounded-full border shadow-md border-gray-300 mx-auto h-30 w-25 md:w-35 lg:w-40"
           variant="outline"
         >
           How to play
         </Button>
         <Button
-          className="rounded-full border shadow-md border-gray-300 mx-auto h-30 w-40"
+          className="rounded-full border shadow-md border-gray-300 mx-auto h-30 w-20 md:w-35 lg:w-40"
           variant="outline"
         >
           Log In
         </Button>
-        <Button className="rounded-full border shadow-md border-white-300 mx-auto h-30 w-40">Play</Button>
+        <Button className="rounded-full border shadow-md border-white-300 mx-auto h-30 w-20 md:w-35 lg:w-40">Play</Button>
       </div>
     </MaxWidthWrapper>
   );
