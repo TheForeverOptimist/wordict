@@ -1,35 +1,65 @@
 export default function Keyboard() {
   return (
-    <div className="fixed inset-x-0 bottom-0 bg-gray-100 p-4">
+    <div className="fixed inset-x-0 bottom-0 bg-gray-100 p-4 gap-x-1">
       <div className="flex justify-center gap-1 mb-2">
-        <button className="border-2 w-10 h-10 text-xl md:w-12 md:h-12 md:text-3xl bg-slate-400" data-key="Q">
+        <button
+          className="border-2 w-10 h-10 text-xl md:w-12 md:h-12 md:text-3xl bg-slate-400"
+          data-key="Q"
+        >
           Q
         </button>
-        <button className="border-2 w-10 h-10 text-xl md:w-12 md:h-12 md:text-3xl bg-slate-400" data-key="W">
+        <button
+          className="border-2 w-10 h-10 text-xl md:w-12 md:h-12 md:text-3xl bg-slate-400"
+          data-key="W"
+        >
           W
         </button>
-        <button className="border-2 w-10 h-10 text-xl md:w-12 md:h-12 md:text-3xl bg-slate-400" data-key="E">
+        <button
+          className="border-2 w-10 h-10 text-xl md:w-12 md:h-12 md:text-3xl bg-slate-400"
+          data-key="E"
+        >
           E
         </button>
-        <button className="border-2 w-10 h-10 text-xl md:w-12 md:h-12 md:text-3xl bg-slate-400" data-key="R">
+        <button
+          className="border-2 w-10 h-10 text-xl md:w-12 md:h-12 md:text-3xl bg-slate-400"
+          data-key="R"
+        >
           R
         </button>
-        <button className="border-2 w-10 h-10 text-xl md:w-12 md:h-12 md:text-3xl bg-slate-400" data-key="T">
+        <button
+          className="border-2 w-10 h-10 text-xl md:w-12 md:h-12 md:text-3xl bg-slate-400"
+          data-key="T"
+        >
           T
         </button>
-        <button className="border-2 w-10 h-10 text-xl md:w-12 md:h-12 md:text-3xl bg-slate-400" data-key="Y">
+        <button
+          className="border-2 w-10 h-10 text-xl md:w-12 md:h-12 md:text-3xl bg-slate-400"
+          data-key="Y"
+        >
           Y
         </button>
-        <button className="border-2 w-10 h-10 text-xl md:w-12 md:h-12 md:text-3xl bg-slate-400" data-key="U">
+        <button
+          className="border-2 w-10 h-10 text-xl md:w-12 md:h-12 md:text-3xl bg-slate-400"
+          data-key="U"
+        >
           U
         </button>
-        <button className="border-2 w-10 h-10 text-xl md:w-12 md:h-12 md:text-3xl bg-slate-400" data-key="I">
+        <button
+          className="border-2 w-10 h-10 text-xl md:w-12 md:h-12 md:text-3xl bg-slate-400"
+          data-key="I"
+        >
           I
         </button>
-        <button className="border-2 w-10 h-10 text-xl md:w-12 md:h-12 md:text-3xl bg-slate-400" data-key="O">
+        <button
+          className="border-2 w-10 h-10 text-xl md:w-12 md:h-12 md:text-3xl bg-slate-400"
+          data-key="O"
+        >
           O
         </button>
-        <button className="border-2 w-10 h-10 text-xl md:w-12 md:h-12 md:text-3xl bg-slate-400" data-key="P">
+        <button
+          className="border-2 w-10 h-10 text-xl md:w-12 md:h-12 md:text-3xl bg-slate-400"
+          data-key="P"
+        >
           P
         </button>
       </div>
@@ -89,7 +119,10 @@ export default function Keyboard() {
         <button className="border-2 size-12 text-3xl bg-slate-400" data-key="M">
           M
         </button>
-        <button className=" flex items-center justify-center border-2 h-12 w-24 bg-slate-400" data-delete>
+        <button
+          className=" flex items-center justify-center border-2 h-12 w-24 bg-slate-400"
+          data-delete
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             height="24"
