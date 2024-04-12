@@ -35,32 +35,32 @@ export default function Keyboard() {
       </div>
       <div className="space-x-2"> </div>
       <div className="flex justify-center gap-2 mb-2">
-        <button className="border-2 size-12 text-3xl bg-slate-400" data-key="Q">
-          Q
+        <button className="border-2 size-12 text-3xl bg-slate-400" data-key="A">
+          A
         </button>
-        <button className="border-2 size-12 text-3xl bg-slate-400" data-key="W">
-          W
+        <button className="border-2 size-12 text-3xl bg-slate-400" data-key="S">
+          S
         </button>
-        <button className="border-2 size-12 text-3xl bg-slate-400" data-key="E">
-          E
+        <button className="border-2 size-12 text-3xl bg-slate-400" data-key="D">
+          D
         </button>
-        <button className="border-2 size-12 text-3xl bg-slate-400" data-key="R">
-          R
+        <button className="border-2 size-12 text-3xl bg-slate-400" data-key="F">
+          F
         </button>
-        <button className="border-2 size-12 text-3xl bg-slate-400" data-key="T">
-          T
+        <button className="border-2 size-12 text-3xl bg-slate-400" data-key="G">
+          G
         </button>
-        <button className="border-2 size-12 text-3xl bg-slate-400" data-key="Y">
-          Y
+        <button className="border-2 size-12 text-3xl bg-slate-400" data-key="H">
+          H
         </button>
-        <button className="border-2 size-12 text-3xl bg-slate-400" data-key="U">
-          U
+        <button className="border-2 size-12 text-3xl bg-slate-400" data-key="J">
+          J
         </button>
-        <button className="border-2 size-12 text-3xl bg-slate-400" data-key="I">
-          I
+        <button className="border-2 size-12 text-3xl bg-slate-400" data-key="K">
+          K
         </button>
-        <button className="border-2 size-12 text-3xl bg-slate-400" data-key="O">
-          O
+        <button className="border-2 size-12 text-3xl bg-slate-400" data-key="L">
+          L
         </button>
       </div>
       <div className="space-x-2"> </div>
@@ -68,29 +68,26 @@ export default function Keyboard() {
         <button className="border-2 h-12 w-24 text-3xl bg-slate-400" data-enter>
           Enter
         </button>
-        <button className="border-2 size-12 text-3xl bg-slate-400" data-key="Q">
-          Q
+        <button className="border-2 size-12 text-3xl bg-slate-400" data-key="Z">
+          Z
         </button>
-        <button className="border-2 size-12 text-3xl bg-slate-400" data-key="W">
-          W
+        <button className="border-2 size-12 text-3xl bg-slate-400" data-key="X">
+          X
         </button>
-        <button className="border-2 size-12 text-3xl bg-slate-400" data-key="E">
-          E
+        <button className="border-2 size-12 text-3xl bg-slate-400" data-key="C">
+          C
         </button>
-        <button className="border-2 size-12 text-3xl bg-slate-400" data-key="R">
-          R
+        <button className="border-2 size-12 text-3xl bg-slate-400" data-key="V">
+          V
         </button>
-        <button className="border-2 size-12 text-3xl bg-slate-400" data-key="T">
-          T
+        <button className="border-2 size-12 text-3xl bg-slate-400" data-key="B">
+          B
         </button>
-        <button className="border-2 size-12 text-3xl bg-slate-400" data-key="Y">
-          Y
+        <button className="border-2 size-12 text-3xl bg-slate-400" data-key="N">
+          N
         </button>
-        <button className="border-2 size-12 text-3xl bg-slate-400" data-key="U">
-          U
-        </button>
-        <button className="border-2 size-12 text-3xl bg-slate-400" data-key="I">
-          I
+        <button className="border-2 size-12 text-3xl bg-slate-400" data-key="M">
+          M
         </button>
         <button className=" flex items-center justify-center border-2 h-12 w-24 bg-slate-400" data-delete>
           <svg
