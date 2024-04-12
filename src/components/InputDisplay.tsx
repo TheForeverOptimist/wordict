@@ -7,6 +7,7 @@ export default function InputDisplay(){
     const[inputValue, setInputValue] = useState('');
 
     useEffect(() => {
+      //@ts-ignore
         const handleKeyPress = (e) => {
             if(e.key === 'Backspace') {
                 setInputValue((prev) => prev.slice(0, -1))
