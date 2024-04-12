@@ -18,6 +18,12 @@ const config = {
       },
     },
     extend: {
+      gridTemplateColumns: {
+        '4x4em' : 'repeat(4, 4em)', //custom grid columns
+      },
+      gridTemplateRows:{
+        '10x4em' : 'repeat(10, 4em)', // custom grid rows
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",

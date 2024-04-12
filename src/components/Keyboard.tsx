@@ -1,3 +1,5 @@
+import React from 'react'
+
 export default function Keyboard() {
   return (
     <div className="fixed inset-x-0 bottom-0 bg-gray-100 p-4 gap-x-1">
