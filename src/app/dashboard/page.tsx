@@ -28,6 +28,14 @@ const Dashboard: React.FC<DashboardProps> = ({ initialGuesses = [] }) => {
       return;
     }
 
+    const letters = currentGuess.split('');
+    const uniqueLetters = new Set(letters);
+    if(uniqueLetters.size !== letters.length){
+        alert("Please do not repeat letters in your guess");
+        return;
+    }
+    
+
     let correctCount = 0;
     let misplacedCount = 0;
     let correctSymbols = "";
@@ -71,3 +79,6 @@ const Dashboard: React.FC<DashboardProps> = ({ initialGuesses = [] }) => {
     </div>
   );
 };
+
+
+export default Dashboard;
