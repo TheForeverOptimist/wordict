@@ -14,15 +14,10 @@ export default function Dashboard(){
 
     return(
         <div className='flex flex-col items-center justify-center'>
-            {/* <LampDemo /> */}
-            <InputDisplay />
-            {new Array(10).fill(0).map((_, i) => {
-                return <GuessGrid key={i} word={"tests"} guess={"guess"} isGuessed={false} />
-            })}
+            {new Array(10).fill(0).map((_, i) => (
+                <GuessGrid key={i} word={"test"} guess={"stop"} isGuessed={true} />
+            ))}
             <Keyboard />
-
         </div>
-        
-        
     )
 }
