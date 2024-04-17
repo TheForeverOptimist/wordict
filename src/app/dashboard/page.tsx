@@ -28,13 +28,12 @@ const Dashboard: React.FC<DashboardProps> = ({ initialGuesses = [] }) => {
       return;
     }
 
-    const letters = currentGuess.split('');
+    const letters = currentGuess.split("");
     const uniqueLetters = new Set(letters);
-    if(uniqueLetters.size !== letters.length){
-        alert("Please do not repeat letters in your guess");
-        return;
+    if (uniqueLetters.size !== letters.length) {
+      alert("Please do not repeat letters in your guess");
+      return;
     }
-    
 
     let correctCount = 0;
     let misplacedCount = 0;
@@ -50,12 +49,26 @@ const Dashboard: React.FC<DashboardProps> = ({ initialGuesses = [] }) => {
       }
     });
 
-    setGuesses((prevGuesses) => [
-      ...prevGuesses,
-      { guess: currentGuess, symbols: correctSymbols },
-    ]);
-    setCurrentGuess(""); //reset input for the next guess
+    setGuesses((prevGuesses) => {
+      if (prevGuesses.length >= 9) {
+        if (correctCount === 4) {
+          alert("Congratulations! You've guessed the word correctly.");
+        } else {
+          alert("You've reached 10 guesses. You lost!");
+        }
+        return prevGuesses;
+      } else {
+        return [
+          ...prevGuesses,
+          { guess: currentGuess, symbols: correctSymbols }
+        ];
+      }
+    });
+    setCurrentGuess(""); // Reset input for the next guess
   };
+    
+    
+    
 
   return (
     <div className="flex flex-col items-center justify-center p-4">
