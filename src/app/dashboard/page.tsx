@@ -17,11 +17,20 @@ const Dashboard: React.FC<DashboardProps> = ({ initialGuesses = [] }) => {
   const [currentGuess, setCurrentGuess] = useState<string>("");
   const [guesses, setGuesses] = useState<Guess[]>(initialGuesses);
   const correctWord = "STOP"; // example
+  const[usedLetters, setUsedLetters] = useState(new Set<string>());
+  const[isFilterActive, setIsFilterActive] = useState(false)
 
   const handleKeyPress = (key: string) => {
     if(currentGuess.length < 4) {
       setCurrentGuess(prev => prev + key)
+      if(isFilterActive){
+        setUsedLetters(prev => new Set(prev.add(key)))
+      }
     }
+  }
+
+  const handleDelete = () => {
+    setCurrentGuess(prev => prev.slice(0, -1))
   }
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -94,7 +103,7 @@ const Dashboard: React.FC<DashboardProps> = ({ initialGuesses = [] }) => {
       {guesses.map((data, index) => (
         <GuessGrid key={index} guess={data.guess} symbols={data.symbols} />
       ))}
-      <Keyboard />
+      <Keyboard onKeyPress={handleKeyPress} onDelete={handleDelete} onEnter={handleSubmitGuess} usedLetters={usedLetters} isFilterActive={isFilterActive} />
     </div>
   );
 };
