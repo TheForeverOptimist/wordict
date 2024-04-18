@@ -18,6 +18,12 @@ const Dashboard: React.FC<DashboardProps> = ({ initialGuesses = [] }) => {
   const [guesses, setGuesses] = useState<Guess[]>(initialGuesses);
   const correctWord = "STOP"; // example
 
+  const handleKeyPress = (key: string) => {
+    if(currentGuess.length < 4) {
+      setCurrentGuess(prev => prev + key)
+    }
+  }
+
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setCurrentGuess(event.target.value.toUpperCase());
   };
