@@ -2,7 +2,7 @@
 import GuessGrid from "../../components/GuessGrid";
 import InputDisplay from "@/components/InputDisplay";
 import Keyboard from "@/components/Keyboard";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 
 interface Guess {
   guess: string;
@@ -19,6 +19,7 @@ const Dashboard: React.FC<DashboardProps> = ({ initialGuesses = [] }) => {
   const correctWord = "STOP"; // example
   const[usedLetters, setUsedLetters] = useState(new Set<string>());
   const[isFilterActive, setIsFilterActive] = useState(false)
+  const inputRefs = useRef([...Array(4)].map(() => React.createRef()))
 
   const handleKeyPress = (key: string) => {
     if(currentGuess.length < 4) {
