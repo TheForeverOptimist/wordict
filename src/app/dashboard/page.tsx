@@ -23,9 +23,6 @@ const Dashboard: React.FC<DashboardProps> = ({ initialGuesses = [] }) => {
   const handleKeyPress = (key: string) => {
     if(currentGuess.length < 4) {
       setCurrentGuess(prev => prev + key)
-      if(isFilterActive){
-        setUsedLetters(prev => new Set(prev.add(key)))
-      }
     }
   }
 
@@ -61,28 +58,37 @@ const Dashboard: React.FC<DashboardProps> = ({ initialGuesses = [] }) => {
       } else if (correctWord.includes(currentGuess[idx])) {
         misplacedCount++;
         correctSymbols += "✨";
+      } else{
+        setUsedLetters(prev => new Set(prev).add(currentGuess[idx]))
       }
     });
 
     setGuesses((prevGuesses) => {
-      if (prevGuesses.length >= 9) {
-        if (correctCount === 4) {
+      const newGuesses = [
+        ...prevGuesses,
+        { guess: currentGuess, symbols: correctSymbols },
+      ];
+      if (newGuesses.length >= 10 || correctSymbols === "✅✅✅✅") {
+        if (correctSymbols === "✅✅✅✅") {
           alert("Congratulations! You've guessed the word correctly.");
         } else {
           alert("You've reached 10 guesses. You lost!");
         }
-        return prevGuesses;
-      } else {
-        return [
-          ...prevGuesses,
-          { guess: currentGuess, symbols: correctSymbols }
-        ];
+        return []; // Clear guesses to restart or end the game
       }
+      return newGuesses;
     });
+
     setCurrentGuess(""); // Reset input for the next guess
+    if (correctSymbols === "✅✅✅✅" || guesses.length >= 9) {
+      setUsedLetters(new Set()); // Clear used letters as the game resets
+    }
   };
     
     
+  const toggleFilter = () => {
+    setIsFilterActive(prev => !prev)
+  }
     
 
   return (
@@ -100,10 +106,22 @@ const Dashboard: React.FC<DashboardProps> = ({ initialGuesses = [] }) => {
       >
         Play
       </button>
+      <button
+        className="mb-4 p-2 bg-blue-500 text-white"
+        onClick={(toggleFilter) => setIsFilterActive((prev) => !prev)}
+      >
+        {isFilterActive ? "Hints Off" : "Hints On"}
+      </button>
       {guesses.map((data, index) => (
         <GuessGrid key={index} guess={data.guess} symbols={data.symbols} />
       ))}
-      <Keyboard onKeyPress={handleKeyPress} onDelete={handleDelete} onEnter={handleSubmitGuess} usedLetters={usedLetters} isFilterActive={isFilterActive} />
+      <Keyboard
+        onKeyPress={handleKeyPress}
+        onDelete={handleDelete}
+        onEnter={handleSubmitGuess}
+        usedLetters={usedLetters}
+        isFilterActive={isFilterActive}
+      />
     </div>
   );
 };
