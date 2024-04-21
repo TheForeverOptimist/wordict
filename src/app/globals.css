@@ -106,3 +106,20 @@
   color: white;
   transform: rotateY(180deg); /* Rotate the back by 180 degrees */
 }
+
+
+/* styles for welcome screen */
+@keyframes fold {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(0) rotateX(180deg);
+    opacity: 0;
+  }
+}
+
+.logo-animate {
+  animation: fold 2s forwards;
+}
