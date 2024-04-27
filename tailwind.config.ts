@@ -3,11 +3,11 @@ import type { Config } from "tailwindcss"
 const config = {
   darkMode: ["class"],
   content: [
-    './pages/**/*.{ts,tsx}',
-    './components/**/*.{ts,tsx}',
-    './app/**/*.{ts,tsx}',
-    './src/**/*.{ts,tsx}',
-	],
+    "./pages/**/*.{ts,tsx}",
+    "./components/**/*.{ts,tsx}",
+    "./app/**/*.{ts,tsx}",
+    "./src/**/*.{ts,tsx}",
+  ],
   prefix: "",
   theme: {
     container: {
@@ -19,18 +19,18 @@ const config = {
     },
     extend: {
       backdropFilter: {
-        'none': 'none',
-        'blur': 'blur(10px)'
+        none: "none",
+        blur: "blur(10px)",
       },
       gridTemplateColumns: {
-        '4x4em' : 'repeat(4, 4em)', //custom grid columns
+        "4x4em": "repeat(4, 4em)", //custom grid columns
       },
-      gridTemplateRows:{
-        '10x4em' : 'repeat(10, 4em)', // custom grid rows
+      gridTemplateRows: {
+        "10x4em": "repeat(10, 4em)", // custom grid rows
       },
       colors: {
         border: "hsl(var(--border))",
-        customGreen: '#32a852',
+        customGreen: "#32a852",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
         background: "hsl(var(--background))",
@@ -70,6 +70,10 @@ const config = {
         sm: "calc(var(--radius) - 4px)",
       },
       keyframes: {
+        "caret-blink": {
+          "0%,70%,100%": { opacity: "1" },
+          "20%,50%": { opacity: "0" },
+        },
         "accordion-down": {
           from: { height: "0" },
           to: { height: "var(--radix-accordion-content-height)" },
@@ -80,12 +84,13 @@ const config = {
         },
       },
       animation: {
+        "caret-blink": "caret-blink 1.25s ease-out infinite",
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
       },
     },
   },
   plugins: [require("tailwindcss-animate")],
-} satisfies Config
+} satisfies Config;
 
 export default config
