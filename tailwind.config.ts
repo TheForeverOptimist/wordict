@@ -3,11 +3,11 @@ import type { Config } from "tailwindcss"
 const config = {
   darkMode: ["class"],
   content: [
-    './pages/**/*.{ts,tsx}',
-    './components/**/*.{ts,tsx}',
-    './app/**/*.{ts,tsx}',
-    './src/**/*.{ts,tsx}',
-	],
+    "./pages/**/*.{ts,tsx}",
+    "./components/**/*.{ts,tsx}",
+    "./app/**/*.{ts,tsx}",
+    "./src/**/*.{ts,tsx}",
+  ],
   prefix: "",
   theme: {
     container: {
@@ -18,14 +18,19 @@ const config = {
       },
     },
     extend: {
-      gridTemplateColumns: {
-        '4x4em' : 'repeat(4, 4em)', //custom grid columns
+      backdropFilter: {
+        none: "none",
+        blur: "blur(10px)",
       },
-      gridTemplateRows:{
-        '10x4em' : 'repeat(10, 4em)', // custom grid rows
+      gridTemplateColumns: {
+        "4x4em": "repeat(4, 4em)", //custom grid columns
+      },
+      gridTemplateRows: {
+        "10x4em": "repeat(10, 4em)", // custom grid rows
       },
       colors: {
         border: "hsl(var(--border))",
+        customGreen: "#32a852",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
         background: "hsl(var(--background))",
@@ -81,6 +86,6 @@ const config = {
     },
   },
   plugins: [require("tailwindcss-animate")],
-} satisfies Config
+} satisfies Config;
 
 export default config
