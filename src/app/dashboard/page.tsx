@@ -1,6 +1,5 @@
 "use client";
 import GuessGrid from "../../components/GuessGrid";
-import InputDisplay from "@/components/InputDisplay";
 import Keyboard from "@/components/Keyboard";
 import React, { useRef, useState } from "react";
 
