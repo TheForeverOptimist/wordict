@@ -35,6 +35,7 @@ const Dashboard: React.FC<DashboardProps> = ({ initialGuesses = [] }) => {
       return;
     }
     const letters = currentGuess.split("");
+    //lets make sure we understand how the below lines of code work, using .size and set.
     const uniqueLetters = new Set(letters);
     if (uniqueLetters.size !== letters.length) {
       alert("Please do not repeat letters in your guess");
