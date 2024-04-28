@@ -1,7 +1,8 @@
 "use client";
-import GuessGrid from "../../components/GuessGrid";
+
 import Keyboard from "@/components/Keyboard";
 import React, { useRef, useState } from "react";
+import InputOtp from '@/components/InputOtp'
 
 interface Guess {
   guess: string;
@@ -93,35 +94,15 @@ const Dashboard: React.FC<DashboardProps> = ({ initialGuesses = [] }) => {
 
   return (
     <div className="flex flex-col items-center justify-center p-4">
-      <input
-        type="text"
-        value={currentGuess}
-        onChange={handleInputChange}
-        className="mb-4 p-2 border border-gray-300"
-        maxLength={4}
-      />
-      <button
-        onClick={handleSubmitGuess}
-        className="mb-4 p-2 bg-blue-500 text-white"
-      >
-        Play
-      </button>
-      <button
-        className="mb-4 p-2 bg-blue-500 text-white"
-        onClick={(toggleFilter) => setIsFilterActive((prev) => !prev)}
-      >
-        {isFilterActive ? "Hints Off" : "Hints On"}
-      </button>
-      {guesses.map((data, index) => (
-        <GuessGrid key={index} guess={data.guess} symbols={data.symbols} />
+      {guesses.map((data, idx) => (
+        <InputOtp
+          key={idx}
+          index={idx}
+          initialGuess={data.guess}
+          initialSymbols={data.symbols}
+          onInputComplete={handleInputComplete}
+        />
       ))}
-      <Keyboard
-        onKeyPress={handleKeyPress}
-        onDelete={handleDelete}
-        onEnter={handleSubmitGuess}
-        usedLetters={usedLetters}
-        isFilterActive={isFilterActive}
-      />
     </div>
   );
 };
