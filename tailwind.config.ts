@@ -18,10 +18,6 @@ const config = {
       },
     },
     extend: {
-      backdropFilter: {
-        'none': 'none',
-        'blur': 'blur(10px)'
-      },
       gridTemplateColumns: {
         '4x4em' : 'repeat(4, 4em)', //custom grid columns
       },
@@ -30,7 +26,6 @@ const config = {
       },
       colors: {
         border: "hsl(var(--border))",
-        customGreen: '#32a852',
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
         background: "hsl(var(--background))",
