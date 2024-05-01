@@ -1,4 +1,5 @@
 "use client";
+import GuessRow from "@/components/GuessRow";
 import GuessGrid from "../../components/GuessGrid";
 import Keyboard from "@/components/Keyboard";
 import React, { useRef, useState } from "react";
@@ -101,6 +102,7 @@ const Dashboard: React.FC<DashboardProps> = ({ initialGuesses = [] }) => {
       >
         {isFilterActive ? "Hints Off" : "Hints On"}
       </button>
+      <GuessRow />
       {guesses.map((data, index) => (
         <GuessGrid key={index} guess={data.guess} symbols={data.symbols} />
       ))}
