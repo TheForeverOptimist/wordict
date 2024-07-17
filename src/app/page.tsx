@@ -1,16 +1,14 @@
-"use client"
+"use client";
 
-import MaxWidthWrapper from "@/components/MaxWidthWrapper";
-import { Button } from "@/components/ui/button";
-import WelcomeScreen from "@/components/WelcomeScreen";
+import MaxWidthWrapper from "@/app/components/MaxWidthWrapper";
+import { Button } from "@/app/components/ui/button";
+import WelcomeScreen from "@/app/components/WelcomeScreen";
 import Link from "next/link";
 import { useState } from "react";
 
-
 export default function Home() {
-  const[welcomeDone, setWelcomeDone] = useState<boolean>(false);
+  const [welcomeDone, setWelcomeDone] = useState<boolean>(false);
 
- 
   return (
     <>
       {!welcomeDone && <WelcomeScreen onDone={() => setWelcomeDone(true)} />}

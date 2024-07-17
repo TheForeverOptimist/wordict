@@ -1,7 +1,7 @@
 "use client";
-import GuessRow from "@/components/GuessRow";
-import GuessGrid from "../../components/GuessGrid";
-import Keyboard from "@/components/Keyboard";
+import GuessRow from "@/app/components/GuessRow";
+import GuessGrid from "../components/GuessGrid";
+import Keyboard from "@/app/components/Keyboard";
 import React, { useRef, useState } from "react";
 
 interface Guess {
