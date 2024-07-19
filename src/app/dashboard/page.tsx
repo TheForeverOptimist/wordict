@@ -1,119 +1,95 @@
 "use client";
-import GuessRow from "@/app/components/GuessRow";
-import GuessGrid from "../components/GuessGrid";
-import Keyboard from "@/app/components/Keyboard";
-import React, { useRef, useState } from "react";
+import React from 'react';
+import { useWordictGame } from '../hooks/useWordictGame';
+import GuessGrid from '../components/GuessGrid';
+import Keyboard from '../components/Keyboard';
 
-interface Guess {
-  guess: string;
-  symbols: string;
-}
-interface DashboardProps {
-  initialGuesses?: Guess[];
-}
-const Dashboard: React.FC<DashboardProps> = ({ initialGuesses = [] }) => {
-  const [currentGuess, setCurrentGuess] = useState<string>("");
-  const [guesses, setGuesses] = useState<Guess[]>(initialGuesses);
-  const correctWord = "STOP"; // example
-  const [usedLetters, setUsedLetters] = useState(new Set<string>());
-  const [isFilterActive, setIsFilterActive] = useState(false);
-  const inputRefs = useRef([...Array(4)].map(() => React.createRef()));
+
+
+const Dashboard: React.FC = () => {
+  const {
+    currentGuess,
+    setCurrentGuess,
+    guesses,
+    gameStatus,
+    usedLetters,
+    error,
+    submitGuess,
+    resetGame,
+  } = useWordictGame();
 
   const handleKeyPress = (key: string) => {
     if (currentGuess.length < 4) {
       setCurrentGuess((prev) => prev + key);
     }
   };
+
   const handleDelete = () => {
     setCurrentGuess((prev) => prev.slice(0, -1));
   };
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setCurrentGuess(event.target.value.toUpperCase());
-  };
-  const handleSubmitGuess = () => {
-    if (currentGuess.length !== 4) {
-      alert("Please enter a 4 letter word");
-      return;
-    }
-    const letters = currentGuess.split("");
-    //lets make sure we understand how the below lines of code work, using .size and set.
-    const uniqueLetters = new Set(letters);
-    if (uniqueLetters.size !== letters.length) {
-      alert("Please do not repeat letters in your guess");
-      return;
-    }
-    let correctCount = 0;
-    let misplacedCount = 0;
-    let correctSymbols = "";
-    correctWord.split("").forEach((char, idx) => {
-      if (currentGuess[idx] === char) {
-        correctCount++;
-        correctSymbols += "✅";
-      } else if (correctWord.includes(currentGuess[idx])) {
-        misplacedCount++;
-        correctSymbols += "✨";
-      } else {
-        setUsedLetters((prev) => new Set(prev).add(currentGuess[idx]));
-      }
-    });
-    setGuesses((prevGuesses) => {
-      const newGuesses = [
-        ...prevGuesses,
-        { guess: currentGuess, symbols: correctSymbols },
-      ];
-      if (newGuesses.length >= 10 || correctSymbols === "✅✅✅✅") {
-        if (correctSymbols === "✅✅✅✅") {
-          alert("Congratulations! You've guessed the word correctly.");
-        } else {
-          alert("You've reached 10 guesses. You lost!");
-        }
-        return []; // Clear guesses to restart or end the game
-      }
-      return newGuesses;
-    });
-    setCurrentGuess(""); // Reset input for the next guess
-    if (correctSymbols === "✅✅✅✅" || guesses.length >= 9) {
-      setUsedLetters(new Set()); // Clear used letters as the game resets
-    }
-  };
 
-  const toggleFilter = () => {
-    setIsFilterActive((prev) => !prev);
+  const handleSubmit = () => {
+    submitGuess(currentGuess);
   };
 
   return (
     <div className="flex flex-col items-center justify-center p-4">
-      <input
-        type="text"
-        value={currentGuess}
-        onChange={handleInputChange}
-        className="mb-4 p-2 border border-gray-300"
-        maxLength={4}
-      />
-      <button
-        onClick={handleSubmitGuess}
-        className="mb-4 p-2 bg-blue-500 text-white"
-      >
-        Play
-      </button>
-      <button
-        className="mb-4 p-2 bg-blue-500 text-white"
-        onClick={(toggleFilter) => setIsFilterActive((prev) => !prev)}
-      >
-        {isFilterActive ? "Hints Off" : "Hints On"}
-      </button>
-      <GuessRow />
-      {guesses.map((data, index) => (
-        <GuessGrid key={index} guess={data.guess} symbols={data.symbols} />
+      <h1 className="text-3xl font-bold mb-4">Wordict</h1>
+
+      {gameStatus === "playing" && (
+        <>
+          <input
+            type="text"
+            value={currentGuess}
+            onChange={(e) => setCurrentGuess(e.target.value.toUpperCase())}
+            className="mb-4 p-2 border border-gray-300"
+            maxLength={4}
+          />
+          <button
+            onClick={handleSubmit}
+            className="mb-4 p-2 bg-blue-500 text-white"
+          >
+            Submit Guess
+          </button>
+        </>
+      )}
+
+      {guesses.map((guess, index) => (
+        <GuessGrid key={index} guess={guess.word} symbols={guess.feedback} />
       ))}
+
+      {gameStatus === "won" && (
+        <div className="text-green-500 text-xl font-bold mb-4">
+          Congratulations! You've guessed the word correctly.
+        </div>
+      )}
+
+      {gameStatus === "lost" && (
+        <div className="text-red-500 text-xl font-bold mb-4">
+          Sorry, you've run out of guesses. The word was:{" "}
+          {/* Add logic to reveal the word */}
+        </div>
+      )}
+
+      {(gameStatus === "won" || gameStatus === "lost") && (
+        <button
+          onClick={resetGame}
+          className="mb-4 p-2 bg-green-500 text-white"
+        >
+          Play Again
+        </button>
+      )}
+
       <Keyboard
         onKeyPress={handleKeyPress}
         onDelete={handleDelete}
-        onEnter={handleSubmitGuess}
+        onEnter={handleSubmit}
         usedLetters={usedLetters}
-        isFilterActive={isFilterActive}
       />
+
+      {error && <Toast message={error} />}
     </div>
   );
 };
+
 export default Dashboard;
