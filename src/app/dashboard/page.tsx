@@ -1,10 +1,8 @@
 "use client";
-import React from 'react';
-import { useWordictGame } from '../hooks/useWordictGame';
-import GuessGrid from '../components/GuessGrid';
-import Keyboard from '../components/Keyboard';
-
-
+import React from "react";
+import { useWordictGame } from "../hooks/useWordictGame";
+import GuessGrid from "../components/GuessGrid";
+import Keyboard from "../components/Keyboard";
 
 const Dashboard: React.FC = () => {
   const {
