@@ -3,8 +3,10 @@ import React from "react";
 import { useWordictGame } from "../hooks/useWordictGame";
 import GuessGrid from "../components/GuessGrid";
 import Keyboard from "../components/Keyboard";
+import { useToast } from "../hooks/useToast";
 
 const Dashboard: React.FC = () => {
+  const {addToast} = useToast();
   const {
     currentGuess,
     setCurrentGuess,
