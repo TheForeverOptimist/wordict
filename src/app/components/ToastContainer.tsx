@@ -1,3 +1,4 @@
+"use client"
 import React from "react";
 import Toast from "./Toast";
 import { useToast } from "../hooks/useToast";
