@@ -13,6 +13,8 @@ const Dashboard: React.FC = () => {
     guesses,
     gameStatus,
     incorrectLetters,
+    correctLetters,
+    partiallyCorrectLetters,
     error,
     submitGuess,
     resetGame,
@@ -59,6 +61,8 @@ const Dashboard: React.FC = () => {
         <Keyboard
           onKeyPress={handleKeyPress}
           incorrectLetters={incorrectLetters}
+          correctLetters={correctLetters}
+          partiallyCorrectLetters={partiallyCorrectLetters}
         />
       )}
 

@@ -14,6 +14,10 @@ export const useWordictGame = () => {
     "playing"
   );
   const [incorrectLetters, setIncorrectLetters] = useState(new Set<string>());
+  const [correctLetters, setCorrectLetters] = useState<Set<string>>(new Set());
+  const [partiallyCorrectLetters, setPartiallyCorrectLetters] = useState<
+    Set<string>
+  >(new Set());
   const [error, setError] = useState<string | null>(null);
 
   const fetchNewWord = useCallback(async () => {
@@ -50,23 +54,32 @@ export const useWordictGame = () => {
 
       setError(null);
 
+      const upperGuess = guess.toUpperCase();
       let feedback = "";
+      const newCorrectLetters = new Set(correctLetters);
+      const newPartiallyCorrectLetters = new Set(partiallyCorrectLetters);
       const newIncorrectLetters = new Set(incorrectLetters);
 
       for (let i = 0; i < 4; i++) {
-        if (guess[i] === targetWord[i]) {
-          feedback += "✅";
-        } else if (targetWord.includes(guess[i])) {
-          feedback += "✨";
+        if (upperGuess[i] === targetWord[i]) {
+          feedback += "*";
+          newCorrectLetters.add(upperGuess[i]);
+        } else if (targetWord.includes(upperGuess[i])) {
+          feedback += "!";
+          newPartiallyCorrectLetters.add(upperGuess[i]);
         } else {
-          newIncorrectLetters.add(guess[i]);
+          feedback += " ";
+          newIncorrectLetters.add(upperGuess[i]);
         }
       }
 
+      setCorrectLetters(newCorrectLetters);
+      setPartiallyCorrectLetters(newPartiallyCorrectLetters);
       setIncorrectLetters(newIncorrectLetters);
-      setGuesses((prev) => [...prev, { word: guess, feedback }]);
 
-      if (feedback === "✅✅✅✅") {
+      setGuesses((prev) => [...prev, { word: upperGuess, feedback }]);
+
+      if (feedback === "****") {
         setGameStatus("won");
         recordPlayTime();
       } else if (guesses.length >= 9) {
@@ -76,7 +89,13 @@ export const useWordictGame = () => {
 
       setCurrentGuess("");
     },
-    [targetWord, guesses.length, incorrectLetters]
+    [
+      targetWord,
+      guesses.length,
+      incorrectLetters,
+      correctLetters,
+      partiallyCorrectLetters,
+    ]
   );
 
   const resetGame = useCallback(() => {
@@ -85,6 +104,8 @@ export const useWordictGame = () => {
       setCurrentGuess("");
       setGameStatus("playing");
       setIncorrectLetters(new Set());
+      setCorrectLetters(new Set());
+      setPartiallyCorrectLetters(new Set());
       fetchNewWord();
     } else {
       setError(
@@ -99,6 +120,8 @@ export const useWordictGame = () => {
     guesses,
     gameStatus,
     incorrectLetters,
+    correctLetters,
+    partiallyCorrectLetters,
     error,
     submitGuess,
     resetGame,
