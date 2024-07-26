@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React, { useEffect } from "react";
 import { useWordictGame } from "../hooks/useWordictGame";
 import { useToast } from "../hooks/useToast";
@@ -12,7 +12,7 @@ const Dashboard: React.FC = () => {
     setCurrentGuess,
     guesses,
     gameStatus,
-    usedLetters,
+    incorrectLetters,
     error,
     submitGuess,
     resetGame,
@@ -56,7 +56,10 @@ const Dashboard: React.FC = () => {
       <GuessGrid guesses={guesses} currentGuess={currentGuess} />
 
       {gameStatus === "playing" && (
-        <Keyboard onKeyPress={handleKeyPress} usedLetters={usedLetters} />
+        <Keyboard
+          onKeyPress={handleKeyPress}
+          incorrectLetters={incorrectLetters}
+        />
       )}
 
       {(gameStatus === "won" || gameStatus === "lost") && (

@@ -2,10 +2,13 @@ import React from "react";
 
 interface KeyboardProps {
   onKeyPress: (key: string) => void;
-  usedLetters: Set<string>;
+  incorrectLetters: Set<string>;
 }
 
-const Keyboard: React.FC<KeyboardProps> = ({ onKeyPress, usedLetters }) => {
+const Keyboard: React.FC<KeyboardProps> = ({
+  onKeyPress,
+  incorrectLetters,
+}) => {
   const rows = [
     ["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P"],
     ["A", "S", "D", "F", "G", "H", "J", "K", "L"],
@@ -21,15 +24,11 @@ const Keyboard: React.FC<KeyboardProps> = ({ onKeyPress, usedLetters }) => {
               key={key}
               onClick={() => onKeyPress(key)}
               className={`mx-1 p-2 rounded ${
-                usedLetters.has(key.toLowerCase())
+                incorrectLetters.has(key.toLowerCase())
                   ? "bg-gray-400 text-white"
                   : "bg-gray-200 hover:bg-gray-300"
               } ${key === "Enter" || key === "Backspace" ? "px-4" : "w-10"}`}
-              disabled={
-                usedLetters.has(key.toLowerCase()) &&
-                key !== "Enter" &&
-                key !== "Backspace"
-              }
+              disabled={key !== "Enter" && key !== "Backspace"}
             >
               {key === "Backspace" ? "←" : key}
             </button>

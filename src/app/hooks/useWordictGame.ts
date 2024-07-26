@@ -13,7 +13,7 @@ export const useWordictGame = () => {
   const [gameStatus, setGameStatus] = useState<"playing" | "won" | "lost">(
     "playing"
   );
-  const [usedLetters, setUsedLetters] = useState(new Set<string>());
+  const [incorrectLetters, setIncorrectLetters] = useState(new Set<string>());
   const [error, setError] = useState<string | null>(null);
 
   const fetchNewWord = useCallback(async () => {
@@ -51,7 +51,7 @@ export const useWordictGame = () => {
       setError(null);
 
       let feedback = "";
-      const newUsedLetters = new Set(usedLetters);
+      const newIncorrectLetters = new Set(incorrectLetters);
 
       for (let i = 0; i < 4; i++) {
         if (guess[i] === targetWord[i]) {
@@ -59,11 +59,11 @@ export const useWordictGame = () => {
         } else if (targetWord.includes(guess[i])) {
           feedback += "✨";
         } else {
-          newUsedLetters.add(guess[i]);
+          newIncorrectLetters.add(guess[i]);
         }
       }
 
-      setUsedLetters(newUsedLetters);
+      setIncorrectLetters(newIncorrectLetters);
       setGuesses((prev) => [...prev, { word: guess, feedback }]);
 
       if (feedback === "✅✅✅✅") {
@@ -76,7 +76,7 @@ export const useWordictGame = () => {
 
       setCurrentGuess("");
     },
-    [targetWord, guesses.length, usedLetters]
+    [targetWord, guesses.length, incorrectLetters]
   );
 
   const resetGame = useCallback(() => {
@@ -84,7 +84,7 @@ export const useWordictGame = () => {
       setGuesses([]);
       setCurrentGuess("");
       setGameStatus("playing");
-      setUsedLetters(new Set());
+      setIncorrectLetters(new Set());
       fetchNewWord();
     } else {
       setError(
@@ -98,7 +98,7 @@ export const useWordictGame = () => {
     setCurrentGuess,
     guesses,
     gameStatus,
-    usedLetters,
+    incorrectLetters,
     error,
     submitGuess,
     resetGame,
