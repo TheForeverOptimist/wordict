@@ -19,7 +19,7 @@ export const useWordictGame = () => {
   const fetchNewWord = useCallback(async () => {
     try {
       const response = await fetch("/api/word");
-      const { word } = response.json();
+      const { word } = await response.json();
       setTargetWord(word.toUpperCase());
     } catch (err) {
       setError("Failed to fetch a new word. Please try again.");
@@ -69,7 +69,7 @@ export const useWordictGame = () => {
       if (feedback === "✅✅✅✅") {
         setGameStatus("won");
         recordPlayTime();
-      } else if (guesses.length === 9) {
+      } else if (guesses.length >= 9) {
         setGameStatus("lost");
         recordPlayTime();
       }
@@ -102,5 +102,6 @@ export const useWordictGame = () => {
     error,
     submitGuess,
     resetGame,
+    targetWord,
   };
 };

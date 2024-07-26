@@ -1,12 +1,12 @@
 "use client";
-import React, {useEffect} from "react";
+import React, { useEffect } from "react";
 import { useWordictGame } from "../hooks/useWordictGame";
 import GuessGrid from "../components/GuessGrid";
 import Keyboard from "../components/Keyboard";
 import { useToast } from "../hooks/useToast";
 
 const Dashboard: React.FC = () => {
-  const {addToast} = useToast();
+  const { addToast } = useToast();
   const {
     currentGuess,
     setCurrentGuess,
@@ -16,13 +16,22 @@ const Dashboard: React.FC = () => {
     error,
     submitGuess,
     resetGame,
+    targetWord,
   } = useWordictGame();
 
   useEffect(() => {
-    if(error){
-      addToast(error, 'error')
+    if (error) {
+      addToast(error, "error");
     }
-  }, [error, addToast])
+  }, [error, addToast]);
+
+  useEffect(() => {
+    if (gameStatus === "won") {
+      addToast("Congratulations! You guessed the word!", "success");
+    } else if (gameStatus === "lost") {
+      addToast(`Game over. The word was ${targetWord}`, "info");
+    }
+  }, [gameStatus, targetWord, addToast]);
 
   const handleKeyPress = (key: string) => {
     if (currentGuess.length < 4) {
@@ -36,11 +45,6 @@ const Dashboard: React.FC = () => {
 
   const handleSubmit = () => {
     submitGuess(currentGuess);
-    if(gameStatus === 'won'){
-      addToast('Congratulations! You guessed the word!', 'success');
-    } else if (gameStatus === 'lost'){
-      addToast(`Game over. The word was ${targetWord}`, 'info')
-    }
   };
 
   return (
@@ -77,8 +81,7 @@ const Dashboard: React.FC = () => {
 
       {gameStatus === "lost" && (
         <div className="text-red-500 text-xl font-bold mb-4">
-          Sorry, you've run out of guesses. The word was:{" "}
-          {/* Add logic to reveal the word */}
+          Sorry, you've run out of guesses. The word was: {targetWord}
         </div>
       )}
 
@@ -97,8 +100,6 @@ const Dashboard: React.FC = () => {
         onEnter={handleSubmit}
         usedLetters={usedLetters}
       />
-
-      {error && <Toast message={error} />}
     </div>
   );
 };

@@ -5,7 +5,6 @@ interface KeyboardProps {
   onDelete: () => void;
   onEnter: () => void;
   usedLetters: Set<string>;
-  isFilterActive: boolean;
 }
 
 const Keyboard: React.FC<KeyboardProps> = ({
@@ -13,7 +12,6 @@ const Keyboard: React.FC<KeyboardProps> = ({
   onDelete,
   onEnter,
   usedLetters,
-  isFilterActive,
 }) => {
   const keysRow1 = ["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P"];
   const keysRow2 = ["A", "S", "D", "F", "G", "H", "J", "K", "L"];
@@ -22,7 +20,7 @@ const Keyboard: React.FC<KeyboardProps> = ({
   // Function to determine button classes
   const getButtonClass = (key: string) => {
     const baseClass = "border-2 w-10 h-10 text-xl md:w-12 md:h-12 md:text-3xl";
-    if (isFilterActive && usedLetters.has(key)) {
+    if (usedLetters.has(key)) {
       return `${baseClass} bg-gray-400 text-white cursor-not-allowed`;
     }
     return `${baseClass} bg-slate-400 text-black`;
@@ -35,7 +33,7 @@ const Keyboard: React.FC<KeyboardProps> = ({
           {row.map((key) => (
             <button
               key={key}
-              disabled={isFilterActive && usedLetters.has(key)}
+              disabled={usedLetters.has(key)}
               onClick={() => onKeyPress(key)}
               className={getButtonClass(key)}
             >

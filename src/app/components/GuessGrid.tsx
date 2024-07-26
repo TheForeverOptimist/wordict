@@ -1,7 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
 
-//@ts-ignore
-const GuessGrid = ({ guess, symbols }) => {
+interface GuessGridProps{
+  guess: string;
+  symbols: string;
+}
+
+
+const GuessGrid: React.FC<GuessGridProps> = ({ guess, symbols }) => {
   const [flipped, setFlipped] = useState(Array(guess.length).fill(false));
   const [flashing, setFlashing] = useState(Array(guess.length).fill(false));
   const [boxesVisible, setBoxesVisible] = useState(
@@ -13,7 +18,7 @@ const GuessGrid = ({ guess, symbols }) => {
   const timeoutIds = useRef([]);
 
   useEffect(() => {
-    let lastFlashingTimeoutId;
+    let lastFlashingTimeoutId: any;
 
     guess.split("").forEach((_, index) => {
       const flashTimes = 8; // Number of times to flash
