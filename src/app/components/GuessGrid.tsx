@@ -12,13 +12,13 @@ const GuessGrid: React.FC<GuessGridProps> = ({ guesses, currentGuess }) => {
   return (
     <div className="mb-4">
       {guesses.map((guess, index) => (
-        <div key={index} className="flex mb-2">
+        <div key={index} className="flex mb-2 items-center">
           <div className="flex mr-2">
             {guess.word.split("").map((letter, letterIndex) => (
               <LetterBox key={letterIndex} letter={letter.toUpperCase()} />
             ))}
           </div>
-          <div className="flex">
+          <div className="flex ml-2">
             {guess.feedback.split("").map((hint, hintIndex) => (
               <HintBox key={hintIndex} hint={hint} />
             ))}
