@@ -1,111 +1,116 @@
 import React, { useEffect, useRef, useState } from "react";
 
-interface GuessGridProps{
+interface GuessGridProps {
   guess: string;
   symbols: string;
 }
 
+// Define a type alias for timeout IDs that works in both Node.js and browser environments
+type TimeoutId = ReturnType<typeof setTimeout>;
 
 const GuessGrid: React.FC<GuessGridProps> = ({ guess, symbols }) => {
-  const [flipped, setFlipped] = useState(Array(guess.length).fill(false));
-  const [flashing, setFlashing] = useState(Array(guess.length).fill(false));
-  const [boxesVisible, setBoxesVisible] = useState(
+  const [flipped, setFlipped] = useState<boolean[]>(
+    Array(guess.length).fill(false)
+  );
+  const [flashing, setFlashing] = useState<boolean[]>(
+    Array(guess.length).fill(false)
+  );
+  const [boxesVisible, setBoxesVisible] = useState<boolean[]>(
     Array(symbols.length).fill(false)
   );
-  const [symbolsVisible, setSymbolsVisible] = useState(
+  const [symbolsVisible, setSymbolsVisible] = useState<boolean[]>(
     Array(symbols.length).fill(false)
   );
-  const timeoutIds = useRef([]);
+  const timeoutIds = useRef<TimeoutId[]>([]);
 
   useEffect(() => {
-    let lastFlashingTimeoutId: any;
+    let lastFlashingTimeoutId: TimeoutId;
 
     guess.split("").forEach((_, index) => {
-      const flashTimes = 8; // Number of times to flash
+      const flashTimes = 8;
       let flashCount = 0;
 
       const intervalId = setInterval(() => {
         setFlashing((f) => {
           const newFlashes = [...f];
-          newFlashes[index] = !newFlashes[index]; // Toggle flash state
+          newFlashes[index] = !newFlashes[index];
           return newFlashes;
         });
 
         flashCount++;
         if (flashCount === flashTimes * 2) {
-          // Since we toggle, count to double
-          clearInterval(intervalId); // Stop flashing
+          clearInterval(intervalId);
           setFlipped((f) => {
-            // Set to flipped to show final symbol
             const newFlips = [...f];
             newFlips[index] = true;
             return newFlips;
           });
           setFlashing((f) => {
-            // Turn off flashing
             const newFlashes = [...f];
             newFlashes[index] = false;
             return newFlashes;
           });
 
-          // Schedule empty boxes and symbols appearance only after the last letter finishes flashing
           if (index === guess.length - 1) {
             lastFlashingTimeoutId = setTimeout(() => {
               symbols.split("").forEach((_, idx) => {
-                setTimeout(() => {
+                const boxTimeoutId = setTimeout(() => {
                   setBoxesVisible((b) => {
                     const newBoxes = [...b];
                     newBoxes[idx] = true;
                     return newBoxes;
                   });
-                  // Start showing symbols after all boxes are visible
-                  setTimeout(() => {
+                  const symbolTimeoutId = setTimeout(() => {
                     setSymbolsVisible((s) => {
                       const newSymbols = [...s];
                       newSymbols[idx] = true;
                       return newSymbols;
                     });
-                  }, (idx + 1) * 500); // Delay for symbols appearing
-                }, idx * 500); // Delay for boxes appearing
+                  }, 500);
+                  timeoutIds.current.push(symbolTimeoutId);
+                }, idx * 500);
+                timeoutIds.current.push(boxTimeoutId);
               });
-            }, 500); // Delay after the last letter finishes flashing
+            }, 500);
           }
         }
-      }, 100); // Adjust timing to control speed of flash
+      }, 100);
 
-      timeoutIds.current.push(intervalId); // Store interval ID for cleanup
+      timeoutIds.current.push(intervalId);
     });
 
     return () => {
-      timeoutIds.current.forEach(clearInterval); // Clear all intervals
-      clearTimeout(lastFlashingTimeoutId); // Ensure we also clear the last timeout
-      timeoutIds.current = []; // Reset the timeout IDs array
+      timeoutIds.current.forEach(clearTimeout);
+      if (lastFlashingTimeoutId) clearTimeout(lastFlashingTimeoutId);
+      timeoutIds.current = [];
     };
-  }, [guess]); // Makes sure we do this every time the guess changes
+  }, [guess, symbols]);
 
-return (
-  <div className="grid grid-cols-[repeat(8,minmax(48px,1fr))] gap-2 mb-4 ml-2em">
-    {guess.split("").map((letter, index) => (
-      <div key={index} className="flex items-center justify-center">
+  return (
+    <div className="grid grid-cols-[repeat(8,minmax(48px,1fr))] gap-2 mb-4 ml-8">
+      {guess.split("").map((letter, index) => (
+        <div key={index} className="flex items-center justify-center">
+          <div
+            className={`w-12 h-12 flex items-center justify-center border-2 text-xl font-bold uppercase ${
+              flashing[index] ? "bg-yellow-500" : "bg-transparent"
+            }`}
+          >
+            {flipped[index] ? letter : ""}
+          </div>
+        </div>
+      ))}
+      {boxesVisible.map((visible, index) => (
         <div
-          className={`w-12 h-12 flex items-center justify-center border-2 text-xl font-bold uppercase ${
-            flashing[index] ? "bg-yellow-500" : "bg-transparent"
-          }`}
+          key={`symbol-${index}`}
+          className="flex items-center justify-center"
         >
-          {letter}
+          <div className="w-12 h-12 flex items-center justify-center border-2 text-xl font-bold uppercase bg-gray-100">
+            {symbolsVisible[index] && visible ? symbols[index] : null}
+          </div>
         </div>
-      </div>
-    ))}
-    {boxesVisible.map((visible, index) => (
-      <div key={index} className="flex items-center justify-center m-1">
-        <div className="w-12 h-12 flex items-center justify-center border-2 text-xl font-bold uppercase bg-gray-100">
-          {symbolsVisible[index] && visible ? (
-            <div>{symbols[index]}</div>
-          ) : null}
-        </div>
-      </div>
-    ))}
-  </div>
-);
+      ))}
+    </div>
+  );
 };
+
 export default GuessGrid;

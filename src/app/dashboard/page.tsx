@@ -75,13 +75,13 @@ const Dashboard: React.FC = () => {
 
       {gameStatus === "won" && (
         <div className="text-green-500 text-xl font-bold mb-4">
-          Congratulations! You've guessed the word correctly.
+          Congratulations! You&apos;ve guessed the word correctly.
         </div>
       )}
 
       {gameStatus === "lost" && (
         <div className="text-red-500 text-xl font-bold mb-4">
-          Sorry, you've run out of guesses. The word was: {targetWord}
+          Sorry, you&apos;ve run out of guesses. The word was: {targetWord}
         </div>
       )}
 
