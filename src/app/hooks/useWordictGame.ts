@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
-import { canPlay, recordPlayTime } from "../../utils/playTimeManager";
+import { canPlay, recordPlayTime } from "../../lib/playTimeManager";
 
 export interface Guess {
   word: string;

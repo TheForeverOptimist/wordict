@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, {useEffect} from "react";
 import { useWordictGame } from "../hooks/useWordictGame";
 import GuessGrid from "../components/GuessGrid";
 import Keyboard from "../components/Keyboard";
@@ -18,6 +18,12 @@ const Dashboard: React.FC = () => {
     resetGame,
   } = useWordictGame();
 
+  useEffect(() => {
+    if(error){
+      addToast(error, 'error')
+    }
+  }, [error, addToast])
+
   const handleKeyPress = (key: string) => {
     if (currentGuess.length < 4) {
       setCurrentGuess((prev) => prev + key);
@@ -30,6 +36,11 @@ const Dashboard: React.FC = () => {
 
   const handleSubmit = () => {
     submitGuess(currentGuess);
+    if(gameStatus === 'won'){
+      addToast('Congratulations! You guessed the word!', 'success');
+    } else if (gameStatus === 'lost'){
+      addToast(`Game over. The word was ${targetWord}`, 'info')
+    }
   };
 
   return (
