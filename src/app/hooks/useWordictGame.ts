@@ -1,11 +1,21 @@
 import { useState, useEffect, useCallback, useMemo } from "react";
 import { canPlay, recordPlayTime } from "../../lib/playTimeManager";
-import wordData from "../../../words.json"
+import wordData from "../../../words.json";
 
 export interface Guess {
   word: string;
   feedback: string;
 }
+
+const hashCode = (str: string): number => {
+  let hash = 0;
+  for (let i = 0; i < str.length; i++) {
+    const char = str.charCodeAt(i);
+    hash = (hash << 5) - hash + char;
+    hash = hash & hash; // Convert to 32bit integer
+  }
+  return hash;
+};
 
 export const useWordictGame = () => {
   const [currentGuess, setCurrentGuess] = useState<string>("");
@@ -21,43 +31,31 @@ export const useWordictGame = () => {
   >(new Set());
   const [error, setError] = useState<string | null>(null);
 
-  const hashCode = (str: string): number => {
-    let hash = 0;
-    for(let i = 0; i < str.length; i++){
-      const char = str.charCodeAt(i);
-      hash = ((hash << 5) - hash) + char;
-    }
-    return hash
-  }
+  const allWords = useMemo(() => {
+    return wordData.allWords.reduce((acc, letterGroup) => {
+      return [...acc, ...letterGroup.words];
+    }, [] as string[]);
+  }, []);
 
-
-const allWords = useMemo(() => {
-  return wordData.allWords.reduce((acc, letterGroup) => {
-    return [...acc, ...letterGroup.words];
-  }, [] as string[]);
-}, []);
-
-const getDailyWord = useCallback(() => {
-  const today = new Date().toISOString().split("T")[0]; // YYYY-MM-DD
-  const seed = hashCode(today);
-  const index = Math.abs(seed) % allWords.length;
-  return allWords[index].toUpperCase();
-}, [allWords]);
-
-const fetchNewWord = useCallback(() => {
-  const newWord = getDailyWord();
-  setTargetWord(newWord);
-}, [getDailyWord]);
+  const getDailyWord = useCallback(() => {
+    const today = new Date().toISOString().split("T")[0]; // YYYY-MM-DD
+    const seed = hashCode(today);
+    const index = Math.abs(seed) % allWords.length;
+    return allWords[index].toUpperCase();
+  }, [allWords]);
 
   useEffect(() => {
     if (canPlay()) {
-      fetchNewWord();
+      const word = getDailyWord();
+      setTargetWord(word);
+      setGameStatus("playing");
     } else {
       setError(
         "You can only play once every 24 hours. Please come back tomorrow"
       );
+      setGameStatus("lost");
     }
-  }, [fetchNewWord]);
+  }, [getDailyWord]);
 
   const submitGuess = useCallback(
     (guess: string) => {
@@ -121,17 +119,19 @@ const fetchNewWord = useCallback(() => {
     if (canPlay()) {
       setGuesses([]);
       setCurrentGuess("");
-      setGameStatus("playing");
       setIncorrectLetters(new Set());
       setCorrectLetters(new Set());
       setPartiallyCorrectLetters(new Set());
-      fetchNewWord();
+      const newWord = getDailyWord();
+      setTargetWord(newWord);
+      setGameStatus("playing");
     } else {
       setError(
         "You can only play once every 24 hours. Please come back later."
       );
+      setGameStatus("lost");
     }
-  }, [fetchNewWord]);
+  }, [getDailyWord]);
 
   return {
     currentGuess,
