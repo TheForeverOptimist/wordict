@@ -56,6 +56,7 @@ export const useWordictGame = () => {
       setGameStatus("lost");
     }
   }, [getDailyWord]);
+  console.log(targetWord)
 
   const submitGuess = useCallback(
     (guess: string) => {
