@@ -1,5 +1,6 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import { canPlay, recordPlayTime } from "../../lib/playTimeManager";
+import wordData from "../../../words.json"
 
 export interface Guess {
   word: string;
@@ -20,15 +21,33 @@ export const useWordictGame = () => {
   >(new Set());
   const [error, setError] = useState<string | null>(null);
 
-  const fetchNewWord = useCallback(async () => {
-    try {
-      const response = await fetch("/api/word");
-      const { word } = await response.json();
-      setTargetWord(word.toUpperCase());
-    } catch (err) {
-      setError("Failed to fetch a new word. Please try again.");
+  const hashCode = (str: string): number => {
+    let hash = 0;
+    for(let i = 0; i < str.length; i++){
+      const char = str.charCodeAt(i);
+      hash = ((hash << 5) - hash) + char;
     }
-  }, []);
+    return hash
+  }
+
+
+const allWords = useMemo(() => {
+  return wordData.allWords.reduce((acc, letterGroup) => {
+    return [...acc, ...letterGroup.words];
+  }, [] as string[]);
+}, []);
+
+const getDailyWord = useCallback(() => {
+  const today = new Date().toISOString().split("T")[0]; // YYYY-MM-DD
+  const seed = hashCode(today);
+  const index = Math.abs(seed) % allWords.length;
+  return allWords[index].toUpperCase();
+}, [allWords]);
+
+const fetchNewWord = useCallback(() => {
+  const newWord = getDailyWord();
+  setTargetWord(newWord);
+}, [getDailyWord]);
 
   useEffect(() => {
     if (canPlay()) {
